@@ -1,68 +1,202 @@
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+    --primary-text-color: #183b56;
+    --secondary-text-color: #577592;
+    --accent: #2294ed;
+    --background: #f8f9fa;
+    --nav-background: #1a73e8;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+    color: var(--primary-text-color);
+    background-color: var(--background);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+p {
+    font-family: "Roboto", sans-serif;
+    line-height: 1.6;
+    /* color not defined */
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+a {
+    text-decoration: none;
+    color: white;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+ul {
+    list-style: none;
 }
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding: 0 20px;
+}
+
+nav {
+    background-color: var(--nav-background);
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    left: 0;
+    right: 0;
+}
+
+.main-nav {
+    justify-content: space-between;
+    padding: 12px 0;
+}
+
+.company-logo img {
+    width: 100px;
+}
+
+.nav-links ul {
+    gap: 24px;
+    color: white;
+}
+
+.hover-link {
+    cursor: pointer;
+    transition: 0.3s ease;
+    position: relative;
+}
+
+.hover-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+.hover-link:hover::after {
+    width: 100%;
+}
+
+.nav-item.active {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.search-bar {
+    height: 40px;
+    gap: 12px;
+}
+
+.news-input {
+    width: 240px;
+    padding: 0 16px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.news-input:focus {
+    outline: none;
+    width: 260px;
+}
+
+.search-button {
+    background-color: white;
+    color: var(--nav-background);
+    border-radius: 20px;
+    padding: 8px 24px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    transform: translateY(-2px);
+}
+
+.heading {
+    margin-bottom: 40px;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.h1 {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+}
+
+.h2 {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+main {
+    padding: 120px 0 40px;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 0 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+
+
+.card-header img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.news-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.news-desc {
+    font-size: 0.95rem;
+}
+
+
+.loading {
+    display: flex;
+    justify-content: center;
+    min-height: 200px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
+}
+
+
+@media (max-width: 768px) {
+    .main-nav {
+        flex-direction: column;
+        gap: 16px;
+    }
+  }

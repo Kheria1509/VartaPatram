@@ -1,13 +1,110 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./src/assets/news.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vartapatram</title>
+    <title>Vartapatram - Your Ultimate News Source</title>
+    <meta name="description" content="Stay informed with the latest news from around the world" />
+    <link rel="icon" type="image/png" href="/src/assets/news.png" />
+    <link rel="stylesheet" href="/src/index.css" />
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+   <body>
+    <nav>
+      <div class="main-nav container flex">
+        <a href="#" onclick="reload()" class="company-logo">
+          <img src="./src/assets/news.png" alt="Vartapatram" />
+        </a>
+        <div class="nav-links">
+          <ul class="flex">
+            <li
+              class="hover-link nav-item"
+              id="technology"
+              onclick="onNavItemClick('technology')"
+            >
+              Technology
+            </li>
+            <li
+              class="hover-link nav-item"
+              id="sports"
+              onclick="onNavItemClick('sports')"
+            >
+              Sports
+            </li>
+            <li
+              class="hover-link nav-item"
+              id="finance"
+              onclick="onNavItemClick('finance')"
+            >
+              Finance
+            </li>
+            <li
+              class="hover-link nav-item"
+              id="education"
+              onclick="onNavItemClick('education')"
+            >
+              Education
+            </li>
+            <li
+              class="hover-link nav-item"
+              id="politics"
+              onclick="onNavItemClick('politics')"
+            >
+              Politics
+            </li>
+          </ul>
+        </div>
+        <div class="search-bar flex">
+          <input
+            id="search-text"
+            type="text"
+            class="news-input"
+            placeholder="Search for news..."
+          />
+          <button id="search-button" class="search-button">Search</button>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="heading">
+        <h1 class="h1">Your Ultimate News Hub</h1>
+        <h2 class="h2">
+          Stay Informed with Comprehensive and Timely News Updates
+        </h2>
+      </div>
+
+      <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+      </div>
+
+      <div class="cards-container container" id="cards-container"></div>
+
+      <div
+        id="error-container"
+        style="display: none; text-align: center; padding: 20px"
+      >
+        <p class="error-message"></p>
+      </div>
+    </main>
+
+    <template id="template-news-card">
+      <div class="card">
+        <div class="card-header">
+          <img
+            src="./src/assets/news.png"
+            alt="news-image"
+            id="news-img"
+          />
+        </div>
+        <div class="card-content">
+          <h3 class="news-title" id="news-title">This is the Title</h3>
+          <h6 class="news-source" id="news-source">End Gadget 26/08/2023</h6>
+          <p class="news-desc" id="news-desc">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+      </div>
+    </template>
+
   </body>
 </html>
