@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// Use Vite's import.meta.env to access environment variables
 const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
-const BASE_URL =
-import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+console.log("API Key:", API_KEY);
+console.log("Base URL:", BASE_URL);
 
 export default function App() {
   const [articles, setArticles] = useState([]);
@@ -30,7 +31,6 @@ export default function App() {
     { id: "health", name: "Health" },
   ];
 
-  // Enhanced popular search terms with categories
   const popularSearches = [
     { text: "artificial intelligence", category: "Technology" },
     { text: "climate change", category: "Environment" },
@@ -74,7 +74,6 @@ export default function App() {
         return;
       }
 
-      // Filter articles that have images
       const articlesWithImages = data.articles.filter(
         (article) => article.urlToImage
       );
@@ -103,7 +102,6 @@ export default function App() {
     setShowSuggestions(false);
     setSelectedSuggestionIndex(-1);
 
-    // Save to recent searches
     setRecentSearches((prev) => {
       const updated = [
         searchTerm,
@@ -131,7 +129,6 @@ export default function App() {
     setModalSearchQuery(searchQuery);
     document.body.classList.add("modal-open");
 
-    // Focus on modal input after animation
     setTimeout(() => {
       if (modalSearchInputRef.current) {
         modalSearchInputRef.current.focus();
@@ -183,7 +180,6 @@ export default function App() {
 
   function generateSuggestions(value) {
     if (value.trim() === "") {
-      // Show recent searches and popular categories when no input
       const suggestions = [];
 
       if (recentSearches.length > 0) {
@@ -218,7 +214,6 @@ export default function App() {
     const lower = value.toLowerCase();
     const suggestions = [];
 
-    // Add category matches
     const catMatches = categories
       .filter((c) => c.name.toLowerCase().includes(lower))
       .map((cat) => ({
@@ -227,7 +222,6 @@ export default function App() {
         subtitle: "News category",
       }));
 
-    // Add recent search matches
     const recentMatches = recentSearches
       .filter((s) => s.toLowerCase().includes(lower))
       .map((search) => ({
@@ -236,7 +230,6 @@ export default function App() {
         subtitle: "Recent search",
       }));
 
-    // Add popular search matches
     const popularMatches = popularSearches
       .filter((s) => s.text.toLowerCase().includes(lower))
       .map((search) => ({
@@ -245,12 +238,10 @@ export default function App() {
         subtitle: search.category,
       }));
 
-    // Combine and prioritize
     suggestions.push(...catMatches);
     suggestions.push(...recentMatches);
     suggestions.push(...popularMatches);
 
-    // Remove duplicates and limit
     const uniqueSuggestions = suggestions
       .filter(
         (suggestion, index, self) =>
@@ -360,7 +351,6 @@ export default function App() {
     window.location.reload();
   }
 
-  // Group suggestions by category for modal display
   function groupSuggestions(suggestions) {
     const grouped = {
       recent: [],
@@ -379,7 +369,6 @@ export default function App() {
 
   useEffect(() => {
     fetchNews("technology");
-    // Load recent searches from localStorage
     try {
       const stored = localStorage.getItem("recentSearches");
       if (stored) setRecentSearches(JSON.parse(stored));
@@ -388,7 +377,6 @@ export default function App() {
     }
   }, []);
 
-  // Close suggestions and modal on click outside
   useEffect(() => {
     function handleClickOutside(e) {
       if (
@@ -419,7 +407,6 @@ export default function App() {
 
   return (
     <div className="app">
-      {/* Search Modal */}
       <div
         className={`search-modal-overlay ${showSearchModal ? "active" : ""}`}
       >
@@ -567,20 +554,6 @@ export default function App() {
           )}
 
           <div className="search-modal-footer">
-            {/* <div className="search-modal-shortcuts">
-              <div className="shortcut-item">
-                <span className="shortcut-key">↵</span>
-                <span>to search</span>
-              </div>
-              <div className="shortcut-item">
-                <span className="shortcut-key">↑↓</span>
-                <span>to navigate</span>
-              </div>
-              <div className="shortcut-item">
-                <span className="shortcut-key">esc</span>
-                <span>to close</span>
-              </div>
-            </div> */}
             <div className="search-modal-actions">
               <button
                 className="search-modal-button secondary"
@@ -599,14 +572,12 @@ export default function App() {
         </div>
       </div>
 
-      {/* Navigation */} 
       <nav className="nav">
         <div className="main-nav container flex">
           <div className="company-logo" onClick={handleReload}>
             <img src="/logo (2).png" alt="Vartapatram" />
           </div>
 
-          {/* Hamburger menu for mobile */}
           <div
             className={`hamburger ${mobileNavOpen ? "active" : ""}`}
             onClick={() => setMobileNavOpen(!mobileNavOpen)}
@@ -629,12 +600,10 @@ export default function App() {
                   {category.name}
                 </li>
               ))}
-              {/* Add search button to dropdown for mobile */}
               {mobileNavOpen && (
-                <li className="hover-link nav-item mobile-search-btn" style={{width: '100%'}}>
+                <li className="hover-link nav-item mobile-search-btn">
                   <button
                     className="search-button"
-                    style={{width: '100%'}}
                     onClick={openSearchModal}
                   >
                     <svg
@@ -663,11 +632,9 @@ export default function App() {
               value={searchQuery}
               onChange={(e) => handleInputChange(e, false)}
               onKeyDown={(e) => handleKeyPress(e, false)}
-              onFocus={openSearchModal}
               autoComplete="off"
-              // Remove readOnly so desktop users can type
             />
-            <button className="search-button" onClick={openSearchModal}>
+            <button className="search-button" onClick={() => handleSearch()}>
               <svg
                 width="16"
                 height="16"
@@ -681,13 +648,36 @@ export default function App() {
               </svg>
               Search
             </button>
+
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="suggestions-list">
+                {suggestions.map((suggestion, index) => (
+                  <div
+                    key={`suggestion-${index}`}
+                    className={`suggestion-item ${
+                      index === selectedSuggestionIndex ? "selected" : ""
+                    }`}
+                    onClick={() => handleSuggestionClick(suggestion, false)}
+                  >
+                    <div className="suggestion-icon">
+                      {getSuggestionIcon(suggestion.type)}
+                    </div>
+                    <div className="suggestion-content">
+                      <div className="suggestion-text">{suggestion.text}</div>
+                      <div className="suggestion-subtitle">
+                        {suggestion.subtitle}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </nav>
 
       <main className="main">
         <div className="content-wrapper">
-          {/* Loading State */}
           {loading && (
             <div className="loading">
               <div className="loading-spinner"></div>
@@ -695,7 +685,6 @@ export default function App() {
             </div>
           )}
 
-          {/* Error State */}
           {error && !loading && (
             <div className="error-container">
               <div className="error-icon">
@@ -722,7 +711,6 @@ export default function App() {
             </div>
           )}
 
-          {/* News Grid */}
           {!loading && !error && articles.length > 0 && (
             <div className="cards-container container">
               {articles.map((article, index) => (
@@ -772,7 +760,6 @@ export default function App() {
             </div>
           )}
 
-          {/* Empty State */}
           {!loading && !error && articles.length === 0 && (
             <div className="empty-state">
               <div className="empty-icon">
@@ -807,7 +794,6 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="container">
           <div className="footer-content">
